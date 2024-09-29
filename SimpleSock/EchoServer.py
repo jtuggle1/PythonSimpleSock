@@ -11,7 +11,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with conn:
         print(f"Connected by {addr}")
         while True:
-            data = conn.recv(1024)
-            if not data:
+            data = conn.recv(1024).decode()
+            conn.send(data.encode())
+            if data == '-1':
+                print("Connection Broken")
                 break
-            conn.sendall(data)
